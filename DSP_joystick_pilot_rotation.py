@@ -33,7 +33,7 @@ os.chdir(_thisDir)
 
 # Store info about the experiment session
 expName = 'DSP_8target_day1'  # from the Builder filename that created this script
-expInfo = {'participant':'', 'session':'001', 'Flip X':False}
+expInfo = {'participant':'', 'day':'', 'Flip X':False}
 dlg = gui.DlgFromDict(dictionary=expInfo, title=expName)
 if dlg.OK == False: core.quit()  # user pressed cancel
 expInfo['date'] = data.getDateStr()  # add a simple timestamp
@@ -70,8 +70,14 @@ def get_targets(sequence):
 target_order=['random',get_targets((0,2,5,3,1,4,5,6)),get_targets((6,7,4,1,0,3,2,5))]
 seq_label=['random', 'A', 'B']
 
-# create list of 50 random trials followed by 250 item m-sequence representing 2 trial types (A(1), B(2))
-trialorderlist=(np.append(np.zeros(50), (mseq.mseq(2,8,4,1)[:250]+1))).tolist() # day 1 and 10
+# Define trialorder dependent on the exp day
+if expInfo['day']=1:
+    trialorderlist=(np.append(np.zeros(50), (mseq.mseq(2,8,4,1)[:250]+1))).tolist() # day 1: create list of 50 random trials followed by 250 item m-sequence representing 2 trial types (A(1), B(2))
+elif expInfo['day'=10:
+    trialorderlist=(np.append((mseq.mseq(2,8,4,1)[:250]+1)), np.zeros(50)).tolist()
+else:
+    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
+
 #trialorderlist=(np.append(mseq.mseq(2,8,4,1)[:250]+1))).tolist()
 #trialorderlist=list(itertools.chain(np.zeros(20), (mseq.mseq(2,6,10,1)[:40]+1).tolist()))
 
@@ -309,6 +315,7 @@ while continueRoutine:
     
     # check for quit (the Esc key)
     if endExpNow or event.getKeys(keyList=["escape"]):
+        ser.escape_exp()
         core.quit()
     
     # refresh the screen
@@ -412,6 +419,7 @@ for thisTrial in trials:
             
             # check for quit (the Esc key)
             if endExpNow or event.getKeys(keyList=["escape"]):
+                ser.escape_exp()
                 core.quit()
             
             # refresh the screen
@@ -635,6 +643,7 @@ for thisTrial in trials:
         
         # check for quit (the Esc key)
         if endExpNow or event.getKeys(keyList=["escape"]):
+            ser.escape_exp()
             core.quit()
         
         # refresh the screen
@@ -661,7 +670,7 @@ for thisTrial in trials:
 # completed 5 repeats of 'trials'
 
 # experimental data
-savename = ('data/Day1_' + expInfo['participant'] + '_' + expInfo['date'])
+savename = ('data/' + expInfo['participant'] + '_' + expInfo['day'] + '_' + expInfo['date'])
 expData=[joy_x,joy_y,rotate_x,rotate_y,target_timecourse,seq_num,seq_id]
 np.save(savename+'_expData', expData) # to load expData=np.load('expData.npy') after import numpy as np
 np.save(savename+'_target_times', target_times) # to load target_times=np.load('target_times.npy') after import numpy as np
@@ -708,6 +717,7 @@ while continueRoutine and routineTimer.getTime() > 0:
     
     # check for quit (the Esc key)
     if endExpNow or event.getKeys(keyList=["escape"]):
+        ser.escape_exp()
         core.quit()
     
     # refresh the screen
@@ -718,6 +728,7 @@ while continueRoutine and routineTimer.getTime() > 0:
 for thisComponent in endComponents:
     if hasattr(thisComponent, "setAutoDraw"):
         thisComponent.setAutoDraw(False)
+ser.escape_exp()
 #ser.close()
 win.close()
 core.quit()
