@@ -78,7 +78,8 @@ class ArduinoComm(object):
     def trial_trajectory_away(self):
         self.com.write("A")
         
-        
+    def escape_exp(self):
+        self.com.close()
         
     def trial_trajectory_center(self):
         self.com.write("C")

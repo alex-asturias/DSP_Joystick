@@ -304,6 +304,7 @@ while continueRoutine:
     
     # check for quit (the Esc key)
     if endExpNow or event.getKeys(keyList=["escape"]):
+        ser.escape_exp()
         core.quit()
     
     # refresh the screen
@@ -407,6 +408,7 @@ for thisTrial in trials:
             
             # check for quit (the Esc key)
             if endExpNow or event.getKeys(keyList=["escape"]):
+                ser.escape_exp()
                 core.quit()
             
             # refresh the screen
@@ -626,6 +628,7 @@ for thisTrial in trials:
         
         # check for quit (the Esc key)
         if endExpNow or event.getKeys(keyList=["escape"]):
+            ser.escape_exp()
             core.quit()
         
         # refresh the screen
@@ -699,6 +702,7 @@ while continueRoutine and routineTimer.getTime() > 0:
     
     # check for quit (the Esc key)
     if endExpNow or event.getKeys(keyList=["escape"]):
+        ser.escape_exp()
         core.quit()
     
     # refresh the screen
@@ -709,6 +713,7 @@ while continueRoutine and routineTimer.getTime() > 0:
 for thisComponent in endComponents:
     if hasattr(thisComponent, "setAutoDraw"):
         thisComponent.setAutoDraw(False)
+ser.escape_exp()
 #ser.close()
 win.close()
 core.quit()
