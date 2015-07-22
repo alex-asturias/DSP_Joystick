@@ -79,7 +79,8 @@ class ArduinoComm(object):
         self.com.write("A")
         
     def escape_exp(self):
-        self.com.close()
+        self.com.write("l")
+		self.com.close()
         
     def trial_trajectory_center(self):
         self.com.write("C")
