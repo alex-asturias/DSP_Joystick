@@ -71,13 +71,26 @@ target_order=['random',get_targets((0,2,5,3,1,4,5,6)),get_targets((6,7,4,1,0,3,2
 seq_label=['random', 'A', 'B']
 
 # Define trialorder dependent on the exp day
-if expInfo['day']==1:
+if expInfo["day"]=="1":
     trialorderlist=(np.append(np.zeros(50), (mseq.mseq(2,8,4,1)[:250]+1))).tolist() # day 1: create list of 50 random trials followed by 250 item m-sequence representing 2 trial types (A(1), B(2))
-elif expInfo['day']==10:
-    trialorderlist=(np.append((mseq.mseq(2,8,4,1)[:250]+1)), np.zeros(50)).tolist()
-else:
+if expInfo["day"]=="2":
     trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
-
+if expInfo["day"]=="3":
+    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
+if expInfo["day"]=="4":
+    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
+if expInfo["day"]=="5":
+    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
+if expInfo["day"]=="6":
+    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
+if expInfo["day"]=="7":
+    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
+if expInfo["day"]=="8":
+    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
+if expInfo["day"]=="9":
+    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
+if expInfo["day"]=="10":
+    trialorderlist=(np.append((mseq.mseq(2,8,4,1)[:250]+1)), np.zeros(50)).tolist()
 #trialorderlist=(np.append(mseq.mseq(2,8,4,1)[:250]+1))).tolist()
 #trialorderlist=list(itertools.chain(np.zeros(20), (mseq.mseq(2,6,10,1)[:40]+1).tolist()))
 
