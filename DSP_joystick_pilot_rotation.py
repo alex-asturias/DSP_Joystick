@@ -71,25 +71,12 @@ target_order=['random',get_targets((0,2,5,3,1,4,5,6)),get_targets((6,7,4,1,0,3,2
 seq_label=['random', 'A', 'B']
 
 # Define trialorder dependent on the exp day
-if expInfo["day"]=="1":
+day = int(expInfo["day"])
+if day == 1:
     trialorderlist=(np.append(np.zeros(50), (mseq.mseq(2,8,4,1)[:250]+1))).tolist() # day 1: create list of 50 random trials followed by 250 item m-sequence representing 2 trial types (A(1), B(2))
-if expInfo["day"]=="2":
+if day >= 2 and day <=9:
     trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
-if expInfo["day"]=="3":
-    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
-if expInfo["day"]=="4":
-    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
-if expInfo["day"]=="5":
-    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
-if expInfo["day"]=="6":
-    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
-if expInfo["day"]=="7":
-    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
-if expInfo["day"]=="8":
-    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
-if expInfo["day"]=="9":
-    trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
-if expInfo["day"]=="10":
+if day == 10:
     trialorderlist=(np.append((mseq.mseq(2,8,4,1)[:250]+1)), np.zeros(50)).tolist()
 #trialorderlist=(np.append(mseq.mseq(2,8,4,1)[:250]+1))).tolist()
 #trialorderlist=list(itertools.chain(np.zeros(20), (mseq.mseq(2,6,10,1)[:40]+1).tolist()))
@@ -113,7 +100,6 @@ logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a f
 endExpNow = False  # flag for 'escape' or other condition => quit the exp
 
 # Start Code - component code to be run before the window creation
-
 # Setup the Window
 win = visual.Window(size=(1280, 800), fullscr=True, screen=1, allowGUI=False, allowStencil=False,
     monitor='testMonitor', color=[0,0,0], colorSpace='rgb',
@@ -141,6 +127,9 @@ routine_8targets_trialClock = core.Clock()
 #ser = serial.Serial('/dev/ttyUSB0',9600)
 from arduino_comm import ArduinoComm
 ser = ArduinoComm("COM5")
+
+ #After Com has been initialized create a new directory for the trials to be stored in (on the data logger) during this run of the experiment
+ ser.new_directory()
 
 text_reward_trial_cue_seq = visual.TextStim(win=win, ori=0, name='text_reward_trail_cue_seq',
     text='default text',    font='Arial',
@@ -311,6 +300,7 @@ while continueRoutine:
         # check for quit:
         if "escape" in theseKeys:
             endExpNow = True
+            ser.escape_exp()
         if len(theseKeys) > 0:  # at least one key was pressed
             key_resp_instruct.keys = theseKeys[-1]  # just the last key pressed
             key_resp_instruct.rt = key_resp_instruct.clock.getTime()
@@ -415,6 +405,7 @@ for thisTrial in trials:
                 # check for quit:
                 if "escape" in theseKeys:
                     endExpNow = True
+                    ser.escape_exp()
                 if len(theseKeys) > 0:  # at least one key was pressed
                     key_resp_instruct.keys = theseKeys[-1]  # just the last key pressed
                     key_resp_instruct.rt = key_resp_instruct.clock.getTime()

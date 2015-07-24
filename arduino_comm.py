@@ -69,6 +69,9 @@ class ArduinoComm(object):
                 print e
         return -1, -1
         
+    def new_directory(self):
+        self.com.write("D")
+    
     def trial_begin(self):
         self.com.write("h")
         

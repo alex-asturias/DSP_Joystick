@@ -15,11 +15,13 @@ int sensorPin2 = A2;// select the input pin for the potentiometer
 void setup() {
 
   Serial.begin(9600);
+  pinMode(4, OUTPUT); // pin for marking if data point was marked by psychopy
+  pinMode(5, OUTPUT); // pin for marking trajectory
   pinMode(6, OUTPUT); // pin for marking if data point was marked by psychopy
-  pinMode(4, OUTPUT); // pin for marking trajectory
   pinMode(7, OUTPUT);
 
   digitalWrite(4, LOW);   // sets the pin to LOW
+  digitalWrite(5, LOW);
   digitalWrite(6, LOW);
   digitalWrite(7, LOW);
   // initialize all the readings to 0:
@@ -32,6 +34,11 @@ void setup() {
 void loop() {
   if (Serial.available() > 0) {
     command = Serial.read();
+    if (command == 'D') {
+      digitalWrite(5, HIGH);
+      delay(500);
+      digitalWrite(5, LOW);
+    }
     if (command != 'M'){
       digitalWrite(6, LOW); // to mark when an "M" is not received)
     }

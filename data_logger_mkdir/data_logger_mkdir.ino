@@ -20,6 +20,7 @@ const int chipSelect = 10;
 int psychopy_data_pin6 = 6;
 int trajcectory_pin4 = 4;
 int data_logging_signal7 = 7;
+int directory_pin5 = 5;
 int sensorPin1 = A1;
 int sensorPin2 = A2;
 int greenLED = 2;
@@ -35,6 +36,7 @@ int previous_read = LOW;
 int this_read = HIGH;
 int psychopy_signal = LOW;
 int trajectory_signal = LOW;
+int directory_signal = LOW;
 File logfile;
 int FILENUM=0;
 int trajectory=0; // if trajectroy=0 then towards center, if =1 then towards outer target
@@ -54,18 +56,28 @@ void setup() {
   pinMode(data_logging_signal7, INPUT);
   pinMode(chipSelect, OUTPUT);
   pinMode(10, OUTPUT);
-  DateTime now = RTC.now();
-  HOUR = (now.hour());
-  DAY = (now.day());
-  MIN = (now.minute());
+//  DateTime now = RTC.now();
+//  HOUR = (now.hour());
+//  DAY = (now.day());
+//  MIN = (now.minute());
   // see if the card is present and can be initialized:
   if (!SD.begin(chipSelect)) 
     //Serial.println("Card failed, or not present");
     // don't do anything more:
     return;
   //char directory[13];
-  sprintf(directory, "%02d_%02d_%02d",DAY, HOUR, MIN);
-  SD.mkdir(directory);
+//  sprintf(directory, "%02d_%02d_%02d",DAY, HOUR, MIN);
+//  SD.mkdir(directory);
+}
+
+void newdirectory(){
+  char new_directory[13];
+  DateTime now = RTC.now();
+  HOUR = (now.hour());
+  DAY = (now.day());
+  MIN = (now.minute());
+  sprintf(new_directory, "%02d_%02d_%02d",DAY, HOUR, MIN);
+  SD.mkdir(new_directory);
 }
 
 void newfile(){
@@ -83,9 +95,17 @@ void loop(){
   delayMicroseconds((LOG_INTERVAL -1) - (micros() % LOG_INTERVAL));
   
   // create a new file if the loop is
-  this_read=digitalRead(data_logging_signal7);
-  psychopy_signal=digitalRead(psychopy_data_pin6);
   trajectory_signal=digitalRead(trajcectory_pin4);
+  directory_signal=digitalRead(directory_pin5);
+  psychopy_signal=digitalRead(psychopy_data_pin6);
+  this_read=digitalRead(data_logging_signal7);
+  if (directory_signal == HIGH){
+    newdirectory();
+    digitalWrite(3, HIGH);
+    delay(1000);
+    digitalWrite(3, LOW);
+    
+  }
   if  (psychopy_signal == HIGH){
     psychopy_data_point=1;
   }
