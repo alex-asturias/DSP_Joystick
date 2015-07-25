@@ -53,6 +53,7 @@ void setup() {
   pinMode(redLED, OUTPUT);
   pinMode(psychopy_data_pin6, INPUT);
   pinMode(trajcectory_pin4, INPUT);
+  pinMode(directory_pin5, INPUT);
   pinMode(data_logging_signal7, INPUT);
   pinMode(chipSelect, OUTPUT);
   pinMode(10, OUTPUT);
@@ -61,10 +62,11 @@ void setup() {
 //  DAY = (now.day());
 //  MIN = (now.minute());
   // see if the card is present and can be initialized:
-  if (!SD.begin(chipSelect)) 
+  if (!SD.begin(chipSelect)){ 
     //Serial.println("Card failed, or not present");
     // don't do anything more:
     return;
+  }
   //char directory[13];
 //  sprintf(directory, "%02d_%02d_%02d",DAY, HOUR, MIN);
 //  SD.mkdir(directory);
@@ -78,6 +80,7 @@ void newdirectory(){
   MIN = (now.minute());
   sprintf(new_directory, "%02d_%02d_%02d",DAY, HOUR, MIN);
   SD.mkdir(new_directory);
+  FILENUM=0;
 }
 
 void newfile(){
@@ -101,9 +104,9 @@ void loop(){
   this_read=digitalRead(data_logging_signal7);
   if (directory_signal == HIGH){
     newdirectory();
-    digitalWrite(3, HIGH);
+    digitalWrite(redLED, HIGH);
     delay(1000);
-    digitalWrite(3, LOW);
+    digitalWrite(redLED, LOW);
     
   }
   if  (psychopy_signal == HIGH){
@@ -119,19 +122,19 @@ void loop(){
     trajectory=0;
   }
   if ( (this_read == LOW) && ( previous_read == LOW)){
-    digitalWrite(2, HIGH);
-    digitalWrite(3, LOW);
+    digitalWrite(greenLED, HIGH);
+    digitalWrite(redLED, LOW);
     //Serial.println(this_read);
   }
   if ( (this_read == HIGH) && (previous_read == LOW)){
     newfile();
-    digitalWrite(2, LOW);
+    digitalWrite(greenLED, LOW);
     //Serial.println(previous_read);
     //Serial.println(this_read);
   }
   if ( (this_read == HIGH) && (previous_read == HIGH)){
     //if(logfile){
-          digitalWrite(3, HIGH);
+          digitalWrite(redLED, HIGH);
           int read1 = analogRead(sensorPin1);
           int read2 = analogRead(sensorPin2);
           unsigned long t = micros() - START_MICROS;
@@ -147,8 +150,8 @@ void loop(){
     //if (logfile)
         //logfile.flush();
         logfile.close();
-        digitalWrite(3, LOW);
-        digitalWrite(2, LOW);
+        digitalWrite(redLED, LOW);
+        digitalWrite(greenLED, LOW);
         //previous_read == LOW;
   
   }

@@ -36,7 +36,7 @@ void loop() {
     command = Serial.read();
     if (command == 'D') {
       digitalWrite(5, HIGH);
-      delay(500);
+      delay(900);
       digitalWrite(5, LOW);
     }
     if (command != 'M'){

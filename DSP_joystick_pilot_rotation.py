@@ -77,7 +77,7 @@ if day == 1:
 if day >= 2 and day <=9:
     trialorderlist=(mseq.mseq(2,8,4,1)[:250]+1).tolist()
 if day == 10:
-    trialorderlist=(np.append((mseq.mseq(2,8,4,1)[:250]+1)), np.zeros(50)).tolist()
+    trialorderlist=(np.append((mseq.mseq(2,8,4,1)[:250]+1), np.zeros(50)).tolist())
 #trialorderlist=(np.append(mseq.mseq(2,8,4,1)[:250]+1))).tolist()
 #trialorderlist=list(itertools.chain(np.zeros(20), (mseq.mseq(2,6,10,1)[:40]+1).tolist()))
 
@@ -128,8 +128,7 @@ routine_8targets_trialClock = core.Clock()
 from arduino_comm import ArduinoComm
 ser = ArduinoComm("COM5")
 
- #After Com has been initialized create a new directory for the trials to be stored in (on the data logger) during this run of the experiment
- ser.new_directory()
+
 
 text_reward_trial_cue_seq = visual.TextStim(win=win, ori=0, name='text_reward_trail_cue_seq',
     text='default text',    font='Arial',
@@ -340,6 +339,10 @@ thisExp.nextEntry()
 # the Routine "instruction" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
+#After Com has been initialized create a new directory for the trials to be stored in (on the data logger) during this run of the experiment
+ser.new_directory()
+
+
 # set up handler to look after randomisation of conditions etc
 trials = data.TrialHandler(nReps=len(trialorderlist), method='random', 
     extraInfo=expInfo, originPath=None,
@@ -347,6 +350,7 @@ trials = data.TrialHandler(nReps=len(trialorderlist), method='random',
     seed=None, name='trials')
 thisExp.addLoop(trials)  # add the loop to the experiment
 thisTrial = trials.trialList[0]  # so we can initialise stimuli with some values
+
 # abbreviate parameter names if possible (e.g. rgb=thisTrial.rgb)
 if thisTrial != None:
     for paramName in thisTrial.keys():
