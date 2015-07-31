@@ -512,8 +512,8 @@ for thisTrial in trials:
                 rotate_x.append((joy_x[-1]*math.cos(rotation_degree[1]))-(joy_y[-1]*math.sin(rotation_degree[1])))
                 rotate_y.append((joy_x[-1]*math.sin(rotation_degree[1]))+(joy_y[-1]*math.cos(rotation_degree[1])))
             elif len(seq_id)>190 and len(seq_id)<=210: # 5 rotation trials at 67.5 degrees
-                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[1]))-(joy_y[-1]*math.sin(rotation_degree[2])))
-                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[1]))+(joy_y[-1]*math.cos(rotation_degree[2])))
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[1]))-(joy_y[-1]*math.sin(rotation_degree[1])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[1]))+(joy_y[-1]*math.cos(rotation_degree[1])))
             elif len(seq_id)>210 and len(seq_id)<=230: # 5 rotation trials at 90 degrees
                 rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
                 rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))   
@@ -540,8 +540,8 @@ for thisTrial in trials:
                 rotate_x.append((joy_x[-1]*math.cos(rotation_degree[1]))-(joy_y[-1]*math.sin(rotation_degree[1])))
                 rotate_y.append((joy_x[-1]*math.sin(rotation_degree[1]))+(joy_y[-1]*math.cos(rotation_degree[1])))
             elif len(seq_id)>190 and len(seq_id)<=210: # 5 rotation trials at 67.5 degrees
-                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[1]))-(joy_y[-1]*math.sin(rotation_degree[2])))
-                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[1]))+(joy_y[-1]*math.cos(rotation_degree[2])))
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[1]))-(joy_y[-1]*math.sin(rotation_degree[1])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[1]))+(joy_y[-1]*math.cos(rotation_degree[1])))
             elif len(seq_id)>210 and len(seq_id)<=230: # 5 rotation trials at 90 degrees
                 rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
                 rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))   
