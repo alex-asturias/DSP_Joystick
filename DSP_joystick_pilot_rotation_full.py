@@ -79,7 +79,7 @@ if day >= 2 and day <=9:
 if day == 10:
     trialorderlist=(np.append(mseq.mseq(2,8,4,1)[:250]+1), np.zeros(50)).tolist()
 if day == 11:
-trialorderlist=list(itertools.chain((mseq.mseq(2,5,2,1)[:20]+1),(mseq.mseq(2,8,7,1)[:170]+1),,(mseq.mseq(2,5,2,1)[:20]+3),(mseq.mseq(2,5,2,1)[:20]+3),(mseq.mseq(2,5,2,1)[:20]+1),np.zeros(50)))
+    trialorderlist=list(itertools.chain((mseq.mseq(2,5,2,1)[:20]+1),(mseq.mseq(2,8,7,1)[:170]+1),(mseq.mseq(2,5,2,1)[:20]+3),(mseq.mseq(2,5,2,1)[:20]+3),(mseq.mseq(2,5,2,1)[:20]+1),np.zeros(50)))
 #trialorderlist=(np.append(mseq.mseq(2,8,4,1)[:250]+1))).tolist()
 #trialorderlist=list(itertools.chain(np.zeros(20), (mseq.mseq(2,6,10,1)[:40]+1).tolist()))
 
@@ -129,9 +129,6 @@ routine_8targets_trialClock = core.Clock()
 #ser = serial.Serial('/dev/ttyUSB0',9600)
 from arduino_comm import ArduinoComm
 ser = ArduinoComm("COM5")
-
- #After Com has been initialized create a new directory for the trials to be stored in (on the data logger) during this run of the experiment
- ser.new_directory()
 
 text_reward_trial_cue_seq = visual.TextStim(win=win, ori=0, name='text_reward_trail_cue_seq',
     text='default text',    font='Arial',
@@ -342,6 +339,10 @@ thisExp.nextEntry()
 # the Routine "instruction" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
+#After Com has been initialized create a new directory for the trials to be stored in (on the data logger) during this run of the experiment
+ser.new_directory()
+time.sleep(2)
+
 # set up handler to look after randomisation of conditions etc
 trials = data.TrialHandler(nReps=len(trialorderlist), method='random', 
     extraInfo=expInfo, originPath=None,
@@ -460,14 +461,15 @@ for thisTrial in trials:
     # update sequnece information for upcomming trial
     text_reward_trial_cue_seq.setText('Sequence: %s' %(seq_label[seq_id[-1]])) #S et text of sequence cue ("trial cue") to following sequence (seq_id)
     # update sequnece information for upcomming trial
-    if len(seq_id)>20 and <=190:
-        text_reward_trial_cue_seq.setText('Sequence: %s Rotation: 45' %(seq_label[seq_id[-1]])
-    elif len(seq_id)>190 and len(seq_id)<=210:
-        text_reward_trial_cue_seq.setText('Sequence: %s Rotation: 45' %(seq_label[seq_id[-1]])
-    elif len(seq_id)>210 and len(seq_id)<=300: 
-        text_reward_trial_cue_seq.setText('Sequence: %s' %(seq_label[seq_id[-1]])
-    else: 
-        text_reward_trial_cue_seq.setText('Sequence: %s' %(seq_label[seq_id[-1]])) #S et text of sequence cue ("trial cue") to following sequence (seq_id)
+    if len(seq_id)>=0 and len(seq_id)<=20:
+        text_reward_trial_cue_seq.setText('Sequence: %s' %(seq_label[seq_id[-1]])) 
+    if len(seq_id)>20 and len(seq_id)<=190:
+        text_reward_trial_cue_seq.setText('Sequence: %s Rotation: 45' %(seq_label[seq_id[-1]]))
+    if len(seq_id)>190 and len(seq_id)<=210:
+        text_reward_trial_cue_seq.setText('Sequence: %s Rotation: 45' %(seq_label[seq_id[-1]]))
+    if len(seq_id)>210 and len(seq_id)<=300:
+        text_reward_trial_cue_seq.setText('Sequence: %s' %(seq_label[seq_id[-1]]))
+
     # keep track of which components have finished
     routine_8targets_trialComponents = []
     routine_8targets_trialComponents.append(text_reward_trial_cue_seq)
@@ -504,26 +506,26 @@ for thisTrial in trials:
             joy_x.append((-(x-511.5)/511.5)*GAIN)
             joy_y.append(((y-511.5)/511.5)*GAIN)
             if len(seq_id)>=0 and len(seq_id)<=20: # 5 rotation trials at 22.5 degrees
-				rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
-				rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
-			elif len(seq_id)>20 and len(seq_id)<=190: # 5 rotation trials at 45 degrees
-				rotate_x.append((joy_x[-1]*math.cos(rotation_degree[1]))-(joy_y[-1]*math.sin(rotation_degree[1])))
-				rotate_y.append((joy_x[-1]*math.sin(rotation_degree[1]))+(joy_y[-1]*math.cos(rotation_degree[1])))
-			elif len(seq_id)>190 and len(seq_id)<=210: # 5 rotation trials at 67.5 degrees
-				rotate_x.append((joy_x[-1]*math.cos(rotation_degree[1]))-(joy_y[-1]*math.sin(rotation_degree[2])))
-				rotate_y.append((joy_x[-1]*math.sin(rotation_degree[1]))+(joy_y[-1]*math.cos(rotation_degree[2])))
-			elif len(seq_id)>210 and len(seq_id)<=230: # 5 rotation trials at 90 degrees
-				rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
-				rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))   
-			elif len(seq_id)>230 and len(seq_id)<=250: # 5 rotation trials at 112.5 degrees
-				rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
-				rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
-			elif len(seq_id)>250 and len(seq_id)<300: # motor-rotation for a total of 155 trials after 20 "warm up" trials
-				rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
-				rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
-			else:
-				rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
-				rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
+            elif len(seq_id)>20 and len(seq_id)<=190: # 5 rotation trials at 45 degrees
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[1]))-(joy_y[-1]*math.sin(rotation_degree[1])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[1]))+(joy_y[-1]*math.cos(rotation_degree[1])))
+            elif len(seq_id)>190 and len(seq_id)<=210: # 5 rotation trials at 67.5 degrees
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[1]))-(joy_y[-1]*math.sin(rotation_degree[2])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[1]))+(joy_y[-1]*math.cos(rotation_degree[2])))
+            elif len(seq_id)>210 and len(seq_id)<=230: # 5 rotation trials at 90 degrees
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))   
+            elif len(seq_id)>230 and len(seq_id)<=250: # 5 rotation trials at 112.5 degrees
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
+            elif len(seq_id)>250 and len(seq_id)<300: # motor-rotation for a total of 155 trials after 20 "warm up" trials
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
+            else:
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
             joy_circle.pos = [rotate_x[-1], rotate_y[-1]]
             target_timecourse.append(target_status)
             seq_num.append(trialNum)
@@ -532,27 +534,26 @@ for thisTrial in trials:
             joy_x.append(((x-511.5)/511.5)*GAIN)
             joy_y.append(((y-511.5)/511.5)*GAIN)
             if len(seq_id)>=0 and len(seq_id)<=20: # 5 rotation trials at 22.5 degrees
-				rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
-				rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
-			elif len(seq_id)>20 and len(seq_id)<=190: # 5 rotation trials at 45 degrees
-				rotate_x.append((joy_x[-1]*math.cos(rotation_degree[1]))-(joy_y[-1]*math.sin(rotation_degree[1])))
-				rotate_y.append((joy_x[-1]*math.sin(rotation_degree[1]))+(joy_y[-1]*math.cos(rotation_degree[1])))
-			elif len(seq_id)>190 and len(seq_id)<=210: # 5 rotation trials at 67.5 degrees
-				rotate_x.append((joy_x[-1]*math.cos(rotation_degree[1]))-(joy_y[-1]*math.sin(rotation_degree[2])))
-				rotate_y.append((joy_x[-1]*math.sin(rotation_degree[1]))+(joy_y[-1]*math.cos(rotation_degree[2])))
-			elif len(seq_id)>210 and len(seq_id)<=230: # 5 rotation trials at 90 degrees
-				rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
-				rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))   
-			elif len(seq_id)>230 and len(seq_id)<=250: # 5 rotation trials at 112.5 degrees
-				rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
-				rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
-			elif len(seq_id)>250 and len(seq_id)<300: # motor-rotation for a total of 155 trials after 20 "warm up" trials
-				rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
-				rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
-			else:
-				rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
-				rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
-            joy_circle.pos = [rotate_x[-1], rotate_y[-1]]
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
+            elif len(seq_id)>20 and len(seq_id)<=190: # 5 rotation trials at 45 degrees
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[1]))-(joy_y[-1]*math.sin(rotation_degree[1])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[1]))+(joy_y[-1]*math.cos(rotation_degree[1])))
+            elif len(seq_id)>190 and len(seq_id)<=210: # 5 rotation trials at 67.5 degrees
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[1]))-(joy_y[-1]*math.sin(rotation_degree[2])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[1]))+(joy_y[-1]*math.cos(rotation_degree[2])))
+            elif len(seq_id)>210 and len(seq_id)<=230: # 5 rotation trials at 90 degrees
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))   
+            elif len(seq_id)>230 and len(seq_id)<=250: # 5 rotation trials at 112.5 degrees
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
+            elif len(seq_id)>250 and len(seq_id)<300: # motor-rotation for a total of 155 trials after 20 "warm up" trials
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
+            else:
+                rotate_x.append((joy_x[-1]*math.cos(rotation_degree[0]))-(joy_y[-1]*math.sin(rotation_degree[0])))
+                rotate_y.append((joy_x[-1]*math.sin(rotation_degree[0]))+(joy_y[-1]*math.cos(rotation_degree[0])))
             target_timecourse.append(target_status)
             seq_num.append(trialNum)
         
