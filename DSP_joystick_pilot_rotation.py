@@ -341,7 +341,7 @@ routineTimer.reset()
 
 #After Com has been initialized create a new directory for the trials to be stored in (on the data logger) during this run of the experiment
 ser.new_directory()
-time.sleep(2)
+
 
 # set up handler to look after randomisation of conditions etc
 trials = data.TrialHandler(nReps=len(trialorderlist), method='random', 

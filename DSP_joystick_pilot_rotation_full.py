@@ -361,7 +361,8 @@ for thisTrial in trials:
     seq_id.append(int(trialorderlist[trialNum]))
     
     # insert a break after each 50 trials (using the instruction routine)
-    if len(seq_id)>2 and ((len(seq_id))-1)%50==0:
+    #if len(seq_id)>2 and len(seq_id)<170 and ((len(seq_id))-1)%50==0:
+    if len(seq_id)-1 in (50, 100, 150, 190):
         #------Prepare to start Routine "instruction"-------
         t = 0
         instructionClock.reset()  # clock 
@@ -374,7 +375,9 @@ for thisTrial in trials:
         instructionComponents.append(text_instruction)
         instructionComponents.append(key_resp_instruct)
         text_instruction.setText("Have a break and continue with ENTER")
-
+        for thisComponent in instructionComponents:
+            if hasattr(thisComponent, 'status'):
+                thisComponent.status = NOT_STARTED
         
         #-------Start Routine "instruction"-------
         continueRoutine = True
